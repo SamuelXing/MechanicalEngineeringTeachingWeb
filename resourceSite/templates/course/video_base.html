@@ -1,0 +1,9 @@
+{% extends 'blog/__base__.html' %}
+{% block style %}
+<li class="active"><a href="{% url 'course:index' %}">资源</a></li>
+<li><a href="{% url 'blog:blog' %}">博客</a></li>
+<li><a href="{% url 'forum:index' %}">论坛</a></li>
+{% endblock %}
+{% block content %}
+
+{% endblock %}

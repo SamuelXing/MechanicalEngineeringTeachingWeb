@@ -1,0 +1,56 @@
+{% extends "forum/base_with_sidebars.html" %}
+{% load forum_extras %}
+{% block title %}创建新主题{% endblock %}
+
+{% block middle %}
+    <div class="topic-create in-center">
+        <div class="center" style="margin-bottom:20px">
+            <h4><strong>创建新主题</strong></h4>
+        </div>
+
+        <div class="ui-content">
+            <form class="form-horizontal" role="form" action="{% url 'forum:topic_post' %}" method="post">
+               {% if errors %}
+                    <ul class="errors alert alert-danger">
+                        <strong>
+                        {% for v in errors.values %}
+                         <li>{{ v | join:'，' }}</li>
+                        {% endfor %}
+                        </strong></ul>
+               {% endif %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="inputTitle" class="col-sm-2 control-label">标题</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputTitle" placeholder="标题" name="title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputContent" class="col-sm-2 control-label">正文</label>
+                    <div class="col-sm-8">
+                        <textarea rows="3" class="form-control" id="inputContent" placeholder="正文（支持Markdown文本编辑）" name="content"></textarea>
+                    </div>
+                </div>
+<div class="row">
+<div class="col-md-4"></div>
+                <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_node" class="col-sm-2 control-label"></label>
+
+                    <select class="form-control col-md-3" id="id_node" name="nodes">
+                    <option value="3">反馈</option>
+                    <option value="2">讨论</option>
+                    <option value="1">测试节点</option>
+                    <option value="">公共</option>
+                    </select>
+
+                </div>
+                    </div>
+                <div class="col-md-4"></div>
+            </div>
+                <input type="submit" id="checkall" class="btn btn-small btn-primary" value="立即创建">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

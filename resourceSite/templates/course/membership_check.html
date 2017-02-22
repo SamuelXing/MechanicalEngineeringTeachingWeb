@@ -1,0 +1,20 @@
+{% extends "course/course_base.html" %}
+{% block title %}提示{% endblock %}
+{% block meta %}
+{% endblock %}
+{% block middle %}
+<div class="in-center">
+    <p class="center">对不起，您现在还不是会员，没有权限观看本视频，正在跳转<span id="totalSecond">3</span>s。</p>
+</div>
+{% endblock %}
+{% block script %}
+<script language="javascript" type="text/javascript">
+var second = document.getElementById('totalSecond').textContent;
+setInterval("redirect()", 1000);
+function redirect()
+{
+document.getElementById('totalSecond').textContent = --second;
+if (second <= 0) location.href = '/subscription';
+}
+</script>
+{% endblock %}

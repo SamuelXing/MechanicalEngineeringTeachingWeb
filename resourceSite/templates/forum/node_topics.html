@@ -1,0 +1,79 @@
+{% extends "forum/base_with_sidebars.html" %}
+{% load forum_extras %}
+{% block title %} {{node.name}} {% endblock %}
+
+{% block middle %}
+<div class="container-fluid">
+    <div class="alert alert-info interval">{{ node.name }}</div>
+    <div class="table-responsive">
+     <table class="table table-striped">
+        {% for topic in contacts %}
+              <tr>
+                <td>
+                    <!--<a href="" target="_blank"></a>-->
+                    <!--用户头像-->
+                    <div style="margin-left:70px;">
+                        <div class="topic-title">
+                            <strong><a href="{% url 'forum:view_topic' topic.id %}">{{ topic.title }}</a></strong>
+                        </div>
+                        <div>
+                            <a href="{% url 'user:userInfo' topic.author.id%}" target="_blank">{{ topic.author.username }}</a>
+                            {% if topic.author.is_staff %}
+                            <small>[管理员]</small>
+                            {% endif %}
+                            •
+                            <small>创建于 {{ topic.created|date:"d,F,Y" }}</small>
+                            •
+                            <small>
+                                {% if topic.last_replied_time %}
+                                    最后回复 {{ topic.last_touched|date:"d,F,Y" }}
+                                {% else %}
+                                    最后浏览 {{ topic.last_touched|date:"d,F,Y"}}
+                                {% endif %}
+                            </small>
+                             •
+                            <small>
+                                回复数
+                                {% if topic.reply_count %}
+                                     {{topic.reply_count}}
+                                {% else %}
+                                      0
+                                {% endif %}
+                            </small>
+                                {% ifequal topic.node None %}
+                                {% else %}
+                                •
+                                <small>
+                                    {{ topic.node }}
+                                </small>
+                                {% endifequal %}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+     </table>
+    </div>
+                 <ul class="pagination">
+
+                    <li  {% if contacts.has_previous %} {% else %} class="disabled" {% endif %}>
+                        <a class='paginator' title='上一页' {% if contacts.has_previous %}href='?page={{ contacts.previous_page_number}}'{% else %} href='#' {% endif %}>
+                            <span>«</span>
+                        </a>
+                    </li>
+                 {% for p in contacts.paginator.page_range %}
+                    {% ifequal p contacts.number %}
+                        <li class='active'><a title='当前页:{{ p }}'><span>{{ p }}</span></a></li>
+                    {% else %}
+                        <li><a  href='?page={{ p }}' title='{{ p }}'><span>{{ p }}</span></a></li>
+                    {% endifequal %}
+                 {% endfor %}
+                    <li {% if contacts.has_next %} {% else %}class="disabled" {% endif %}>
+                        <a class="paginator" title='下一页' {% if contacts.has_next %}href='?page={{ contacts.next_page_number }}'{% else %} href='#' {% endif %}>
+                            <span>»</span>
+                        </a>
+                    </li>
+                 </ul>
+
+</div>
+{% endblock %}

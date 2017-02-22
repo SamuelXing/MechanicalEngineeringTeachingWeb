@@ -1,0 +1,27 @@
+{% extends "userManage/user_base.html" %}
+{% block title %}登录{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <form class="form-signin" role="form" method="post" action="{% url 'user:signin' %}">
+          {% csrf_token %}
+          <div class="messages">
+			{% for message in messages %}
+			<p class="text-{{ message.tags }}">
+				{{ message }}
+			</p>
+            {% endfor %}
+		</div>
+        <h2 class="form-signin-heading">登录</h2>
+        <input type="username" name="username" class="form-control" placeholder="用户名" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="密码" required>
+        <!--<label class="checkbox">-->
+          <!--<input type="checkbox" value="remember-me"> Remember me-->
+        <!--</label>-->
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <a class="btn btn-link" href="{% url 'user:register' %}">注册？</a>
+        <a class="btn btn-link" href="{% url 'user:password_reset' %}">忘记密码？</a>
+      </form>
+
+    </div> <!-- /container -->
+{% endblock %}

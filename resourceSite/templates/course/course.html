@@ -1,0 +1,74 @@
+{% extends "course/course_base.html" %}
+
+{% block title %}课程{% endblock %}
+
+{% block middle %}
+<div class="container-fluid">
+    <div class="interval">
+    <ul class="nav nav-tabs">
+        {% for course in courses %}
+        <li><a href="{% url 'course:course' course.id %}">{{ course.name }}</a></li>
+        {% endfor%}
+    </ul>
+    </div>
+
+
+    <div class="row">
+        {% if chapters %}
+        {% for chapter in contacts %}
+            {% if course.is_display  %}
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="{{ chapter.image.url }}"  height="300px" width="200px" alt="...">
+                <!--<img src="{{ chapter.image.url }}" width="560" height="360" alt="...">-->
+                <div class="caption">
+                <h3>{{ chapter.name }}</h3>
+                <p>{{ chapter.intro }}</p>
+                <p><a href="{% url 'course:sections' chapter.id %}" class="btn btn-primary" role="button">查看</a></p>
+                </div>
+            </div>
+        </div>
+            {% else %}
+            <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="{{ chapter.image.url }}" height="300px" width="200px" alt="...">
+                <!--<img src="{{ chapter.image.url }}" width="560" height="360" alt="...">-->
+                <div class="caption">
+                <h3>{{ chapter.name }}</h3>
+                <p>{{ chapter.intro }}</p>
+                <p><a href="{% url 'course:sections' chapter.id %}" class="btn btn-primary" role="button">学习</a></p>
+                </div>
+            </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+        </div>
+        <div class="interval">
+        <ul class="pagination">
+
+                    <li  {% if contacts.has_previous %} {% else %} class="disabled" {% endif %}>
+                        <a class='paginator' title='上一页' {% if contacts.has_previous %}href='?page={{ contacts.previous_page_number}}'{% else %} href='#' {% endif %}>
+                            <span>«</span>
+                        </a>
+                    </li>
+                 {% for p in contacts.paginator.page_range %}
+                    {% ifequal p contacts.number %}
+                        <li class='active'><a title='当前页:{{ p }}'><span>{{ p }}</span></a></li>
+                    {% else %}
+                        <li><a  href='?page={{ p }}' title='{{ p }}'><span>{{ p }}</span></a></li>
+                    {% endifequal %}
+                 {% endfor %}
+                    <li {% if contacts.has_next %} {% else %}class="disabled" {% endif %}>
+                        <a class="paginator" title='下一页' {% if contacts.has_next %}href='?page={{ contacts.next_page_number }}'{% else %} href='#' {% endif %}>
+                            <span>»</span>
+                        </a>
+                    </li>
+       </ul>
+        </div>
+        {% else %}
+        <div class="in-center">
+           <p class="center">课程正在完善中，敬请期待。</p>
+        </div>
+        {% endif %}
+</div>
+{% endblock %}

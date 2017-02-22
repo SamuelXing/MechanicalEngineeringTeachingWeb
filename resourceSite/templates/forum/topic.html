@@ -1,0 +1,78 @@
+{% extends "forum/base_with_sidebars.html" %}
+{% load markdown_deux_tags %}
+{% load forum_extras %}
+{% block title %}{{ topic.title }}{% endblock %}
+
+{% block middle %}
+        <article class="post_page">
+            <h3 class="post-title">
+            {{ topic.title }}
+                <small>
+                    <a href="{% url 'user:userInfo' topic.author.id%}">{{ topic.author }}</a>
+                    {% if topic.author.is_staff %}
+                    <small>[管理员]</small>
+                    {% endif %}
+                    创建于 {{ topic.created|date:"d F Y" }}
+                    •
+                    点击数 {{ topic.hits}}
+                    </small>
+            </h3>
+            <br>
+            <table class="table">
+                <tr>
+                    <td>{{ topic.content|markdown }}</td>
+                </tr>
+                        {% ifequal topic.reply_count 0 %}
+                           <tr>
+                               <td>暂无回复，赶紧成为第一个回复的人吧</td>
+                           </tr>
+                        {% else %}
+                            <!--<tr>-->
+                                <!--<td><div class="alert alert-info">回复</div></td>-->
+                            <!--</tr>-->
+                            {% for reply in replies %}
+                            <tr>
+                            <td>
+                                <article>
+                                    {{ reply.content|markdown }}
+                                    回复人：<a href="{% url 'user:userInfo' reply.author.id%}">{{ reply.author }}</a>
+                                    {% if topic.author.is_staff %}
+                                    <small>[管理员]</small>
+                                    {% endif %}
+                                </article>
+                            </td>
+                            </tr>
+                            {% endfor %}
+                        {% endifequal %}
+            </table>
+            <hr>
+            <br>
+        </article>
+
+ <div class="topic-create container-box">
+        <div class="ui-header">
+            <strong>回复</strong>
+        </div>
+
+        <div class="ui-content">
+            <form class="form-horizontal" role="form" action="{% url 'forum:view_topic' topic.id %}" method="post">
+               {% if errors %}
+                    <ul class="errors alert alert-danger">
+                        <strong>
+                        {% for v in errors.values %}
+                         <li>{{ v | join:'，' }}</li>
+                        {% endfor %}
+                        </strong></ul>
+               {% endif %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <textarea rows="3" class="form-control" id="inputContent" placeholder="支持Markdown文本编辑" name="content"></textarea>
+                    </div>
+                </div>
+
+                <input type="submit" id="checkall" class="btn btn-small btn-primary" value="立即创建">
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+    {% extends "blog/__base__.html" %}
+    {% load markdown_deux_tags %}
+    {% block title %}博客{% endblock %}
+
+    {% block content %}
+    <section class="post">
+
+    <!-- Begin page content -->
+     {% if latest_blog_list %}
+        {% for blog in latest_blog_list %}
+        <article class="post_page">
+            <h3 class="post-title">
+            <a href="{% url 'blog:detail' blog.id %}">{{ blog.title }}</a>  <small><small>{{ blog.userName }} • 创建于 {{ blog.created_at|date:"d,F,Y" }}</small></small>
+            </h3>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                <br>
+                  {{ blog.content|markdown|safe }}
+                <br>
+                    <div class="post-footer">
+                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;<small><a href="{% url 'blog:detail' blog.id %}">Detail & Comments</a></small>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </article>
+        <hr>
+        {% endfor %}
+    {% else %}
+    <p>No blogs are available.</p>
+    {% endif %}
+
+    </section>
+
+    <br>
+    <br>
+
+    {% endblock %}

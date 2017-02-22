@@ -1,0 +1,73 @@
+{% extends "forum/base_with_sidebars.html" %}
+{% load forum_extras %}
+{% block title %}论坛{% endblock %}
+
+{% block middle %}
+    <div class="interval">
+    <ul class="nav nav-tabs">
+        {% for node in nodes %}
+        <li><a href="{% url 'forum:node_topic' node.id %}">{{ node }}</a></li>
+        {% endfor%}
+        <a href="{% url 'forum:topic_create' %}" class="btn btn-primary navbar-btn navbar-right btn-sm" role="button">新帖子</a>
+    </ul>
+    </div>
+    <div class="table-responsive">
+     <table class="table table-hover table-striped">
+        {% for topic in topics %}
+              <tr>
+                <td>
+                    <!--<a href="" target="_blank"></a>-->
+                    <!--用户头像-->
+                    <div style="margin-left:70px;">
+                        <div class="topic-title">
+                            <strong><a href="{% url 'forum:view_topic' topic.id %}">{{ topic.title }}</a></strong>
+                        </div>
+                        <div>
+                            {% if topic.author.is_staff %}
+                            <small>{{ topic.author.username }}[管理员] •</small>
+                            {% else %}
+                            <a href="{% url 'user:userInfo' topic.author.id%}" target="_blank">{{ topic.author.username }}</a> •
+                            {% endif %}
+                            <small>创建于 {{ topic.created|date:"d,F,Y" }}</small>
+                            •
+                            <small>
+                                {% if topic.last_replied_time %}
+                                    最后回复 {{ topic.last_touched|date:"d,F,Y" }}
+                                {% else %}
+                                    最后浏览 {{ topic.last_touched|date:"d,F,Y"}}
+                                {% endif %}
+                            </small>
+                             •
+                            <small>
+                                回复数
+                                {% if topic.reply_count %}
+                                     {{topic.reply_count}}
+                                {% else %}
+                                      0
+                                {% endif %}
+                            </small>
+                                {% ifequal topic.node None %}
+                                {% else %}
+                                •
+                                <small>
+                                    {{ topic.node }}
+                                </small>
+                                {% endifequal %}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+
+
+     </table>
+        <!--共有 {{ counter.topics}} 篇帖子-->
+    </div>
+
+ {% if topic_page.pages >= 1 %}
+                     <div class="pagination">
+                     {% pagination topic_page request.get_full_path %}
+                    </div>
+ {% endif %}
+
+{% endblock %}

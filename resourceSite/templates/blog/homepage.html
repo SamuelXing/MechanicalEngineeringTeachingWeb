@@ -1,0 +1,78 @@
+{% extends "blog/__base__.html" %}
+{% load staticfiles %}
+{% block title %}数字化设计与制造--首页{% endblock %}
+
+{% block style %}
+<li><a href="{% url 'course:index' %}">资源</a></li>
+<li><a href="{% url 'blog:blog' %}">博客</a></li>
+<li><a href="{% url 'forum:index' %}">论坛</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div style="margin-left:-15px;margin-right:-15px;">
+<!-- Carousel
+    ================================================== -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="{% static '/static/blog/img/1.jpg' %}"  height="400" width="700" style="margin-left:280px;" alt="First slide" class="img-responsive">
+            <div class="carousel-caption">
+              <h1>数字化设计与制造</h1>
+              <h3>演示视频-教学视频－图文展示－经验分享</h3>
+              <p><a class="btn btn-lg btn-primary" href="subscription/" role="button">订阅优惠</a></p>
+            </div>
+        </div>
+        <div class="item">
+          <img src="{% static '/static/blog/img/2.jpg' %}"   height="400" width="700" style="margin-left:280px;" alt="Second slide"  class="img-responsive">
+            <div class="carousel-caption">
+              <h1>数字化设计与制造</h1>
+              <h3>演示视频-教学视频－图文展示－经验分享</h3>
+              <p><a class="btn btn-lg btn-primary" href="subscription/" role="button">订阅优惠</a></p>
+            </div>
+        </div>
+        <div class="item">
+          <img src="{% static '/static/blog/img/3.jpg' %}"   height="400" width="700" style="margin-left:280px;" alt="Third slide"  class="img-responsive">
+            <div class="carousel-caption">
+              <h1>数字化设计与制造</h1>
+              <h3>演示视频-教学视频－图文展示－经验分享</h3>
+              <p><a class="btn btn-lg btn-primary" href="subscription/" role="button">订阅优惠</a></p>
+            </div>
+        </div>
+      </div>
+    <div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    </div>
+    <div>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div>
+</div>
+<!-- /.carousel -->
+</div>
+<div class="container marketing">
+      <!-- START THE FEATURETTES -->
+
+      <div class="row featurette">
+        <div class="center">
+          <h2 class="featurette-heading"><span class="text-muted">构建应用性学习</span></h2>
+          <p class="lead">
+              数字化设计与制造课程资源网旨在帮助机械加工从业人员从更实际的角度去理解机械应用知识,
+              本网站建立了数字化设计与制造课程的资源库, 您可以在我们的网站浏览加工视频, 零件图片图纸,
+              文字教程等资源。赶紧踏上您的学习之旅吧！
+          </p>
+        </div>
+      </div>
+</div>
+
+      <hr class="featurette-divider">
+
+      <!-- /END THE FEATURETTES -->
+
+{% endblock %}
+

@@ -1,0 +1,75 @@
+    {% extends "blog/__base__.html" %}
+    {% load markdown_deux_tags %}
+    {% block title %}{{ blog.title }}{% endblock %}
+
+    {% block content %}
+     <article class="post_page">
+            <h3 class="post-title">
+            <a href="{% url 'blog:detail' blog.id %}">{{ blog.title }}</a>  <small><small>{{ blog.userName }} • 创建于 {{ blog.created_at|date:"d F Y" }}•
+                    阅读量 {{ blog.view_times}}</small></small>
+            </h3>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                <br>
+                  {{ blog.content|markdown|safe }}
+                    <br>
+                    <br>
+                    <table class="table">
+                        {% if message %}
+                            暂无回复，赶紧成为第一个回复的人吧
+                        {% else %}
+                            <!--<tr>-->
+                                <!--<td><div class="alert alert-info">回复</div></td>-->
+                            <!--</tr>-->
+                            {% for comment in comments %}
+                            <td>
+                                <article>
+                                    {{  comment.content|markdown|safe }}
+                                    {% if comment.author.is_staff %}
+                                        评论人：{{ comment.author }} [管理员]
+                                    {% else %}
+                                    评论人：<a href="{% url 'user:userInfo' comment.author.id%}">{{ comment.author }}</a>
+                                    {% endif %}
+                                     •
+                                    评论于：{{ comment.created_at }}
+                                </article>
+                            </td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
+            </table>
+                <br>
+                    <div class="topic-create container-box">
+        <div class="ui-header">
+            <strong>回复</strong>
+        </div>
+
+        <div class="ui-content">
+            <form class="form-horizontal" role="form" action="{% url 'blog:detail' blog.id %}" method="post">
+               {% if errors %}
+                    <ul class="errors alert alert-danger">
+                        <strong>
+                        {% for v in errors.values %}
+                         <li>{{ v | join:'，' }}</li>
+                        {% endfor %}
+                        </strong></ul>
+               {% endif %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <textarea rows="3" class="form-control" id="inputContent" placeholder="支持Markdown文本编辑" name="content"></textarea>
+                    </div>
+                </div>
+
+                <input type="submit" id="checkall" class="btn btn-small btn-primary" value="立即创建">
+            </form>
+        </div>
+    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </article>
+    {% endblock %}

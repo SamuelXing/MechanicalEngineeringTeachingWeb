@@ -1,0 +1,17 @@
+{% extends 'blog/__base__.html' %}
+{% block style %}
+<li class="active"><a href="{% url 'course:index' %}">资源</a></li>
+<li><a href="{% url 'blog:blog' %}">博客</a></li>
+<li><a href="{% url 'forum:index' %}">论坛</a></li>
+{% endblock %}
+{% block content %}
+<div class="col-md-2" id="left">
+    {% block left %}{% endblock %}
+</div><!--end left-->
+<div class="col-md-8" id="middle">
+    {% block middle %}{% endblock %}
+</div><!--end left-->
+<div class="col-md-2" id="right">
+    {% block right %}{% endblock %}
+</div><!--end right-->
+{% endblock %}

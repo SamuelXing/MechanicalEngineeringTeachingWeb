@@ -1,0 +1,27 @@
+{% extends "blog/__base__.html" %}
+{% block title %}订阅{% endblock %}
+{% load staticfiles %}
+{% block style %}
+<li><a href="{% url 'course:index' %}">资源</a></li>
+<li><a href="{% url 'blog:blog' %}">博客</a></li>
+<li><a href="{% url 'forum:index' %}">论坛</a></li>
+{% endblock %}
+{% block content %}
+    <div class="col-md-2"></div>
+<div class="col-md-8 in-center">
+   <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">立即订阅，成为会员</h3>
+    </div>
+    <div class="panel-body row">
+        <div class="col-md-2"></div>
+        <div class="col-md-7">
+        <img src="{% static '/static/blog/img/1.pic.jpg' %}" height="500" width="450" alt="订阅" class="in-center">
+        <hr>
+            <p class="in-center">扫描上方的二维码，添加好友，微信支付<strong>99.0</strong>元即可成为年会员，无限制观看本网站资源</p>
+        </div>
+    </div>
+   </div>
+</div>
+<div class="col-md-2"></div>
+{% endblock %}

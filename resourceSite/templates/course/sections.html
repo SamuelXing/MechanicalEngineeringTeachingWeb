@@ -1,0 +1,53 @@
+{% extends "course/course_base.html" %}
+{% block title %}章节列表{% endblock %}
+
+{% block content %}
+<div class="container-fluid post-page">
+    <div class="row">
+    <div class="col-md-8" id="right_border">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-9">
+        <div class="table-responsive">
+            <h3>目录</h3>
+            {% if sections %}
+            <table class="table">
+                <ul>
+                {% for sec in sections%}
+                <tr>
+                    <td>
+                        <li><a href="{% url 'course:detail' sec.id %}">{{ sec.name }}</a></li>
+                    </td>
+                </tr>
+                </ul>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p> 课程正在完善中，敬请期待。</p>
+            {% endif %}
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-md-4" id="left-border">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+        <img src="{{ chap.image.url }}" class="img-responsive" alt="..." style="text-align:center">
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row" style="text-align:center">
+            <h3>{{ chap.name }}</h3>
+            <p>创建时间：{{ chap.created }}</p>
+            {% if chap.updated %}
+            <p>更新时间：{{ chap.updated }}</p>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

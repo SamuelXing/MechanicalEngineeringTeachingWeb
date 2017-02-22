@@ -1,0 +1,75 @@
+{% extends "course/video_base.html" %}
+{% load markdown_deux_tags %}
+
+{% block title %}{{video.title}}{% endblock %}
+
+{% block content %}
+<div class="center interval">
+<video src="{{ video.video.url }}" type="video/mp4" controls="controls">
+    当前浏览器无法显示该视频，请升级至最新版
+</video>
+</div>
+
+<div class="col-md-2"></div>
+<div class="col-md-6 interval">
+<table class="table">
+    <tr>
+        <td><h4>{{ video.title }}--介绍</h4></td>
+    </tr>
+    <tr>
+        <td>{{ video.intro }}</td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+    <tr>
+        <td><h4>作业与思考</h4></td>
+    </tr>
+    <tr>
+        <td>{{ video.assignment|markdown }}</td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+    <tr>
+        <td><h4>课程讨论</h4></td>
+    </tr>
+                        {% if message %}
+                            暂无讨论，赶紧成为第一个回复的人吧
+                        {% else %}
+                            <!--<tr>-->
+                                <!--<td><div class="alert alert-info">回复</div></td>-->
+                            <!--</tr>-->
+                            {% for reply in replies %}
+                            <td>
+                                <article>
+                                    {{  reply.content|markdown }}
+                                    评论人：<a href="#">{{ reply.author }}</a>
+                                    •
+                                    评论于：{{ reply.created }}
+                                </article>
+                            </td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
+            </table>
+    <form class="form-horizontal" role="form" action="{% url 'course:watch' video.id %}" method="post">
+               {% if errors %}
+                    <ul class="errors alert alert-danger">
+                        <strong>
+                        {% for v in errors.values %}
+                         <li>{{ v | join:'，' }}</li>
+                        {% endfor %}
+                        </strong></ul>
+               {% endif %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <textarea rows="3" class="form-control" id="inputContent" placeholder="支持Markdown文本编辑" name="content"></textarea>
+                    </div>
+                </div>
+
+                <input type="submit" id="checkall" class="btn btn-small btn-primary" value="立即创建">
+            </form>
+</div>
+{% endblock %}

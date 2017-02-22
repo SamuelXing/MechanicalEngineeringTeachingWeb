@@ -1,0 +1,47 @@
+{% extends "course/course_base.html" %}
+
+{% block title %}课程{% endblock %}
+
+{% block middle %}
+<div class="interval">
+     {% if photos %}
+     <div class="table-responsive">
+     <table class="table">
+        {% for photo in photos %}
+         <tr>
+             <td class="col-md-5">
+                 <div class="col-md-2"></div>
+                 <div class="col-md-8">
+                     <p>
+                 <a href="{{ photo.file.url }}" title="{{ photo.title }}" class="bwGal">
+                     <img src="{{ photo.file.url }}"  height="300px" width="200px" class="img-responsive" alt="...">
+                 </a>
+                     </p>
+                 </div>
+             </td>
+             <td  class="col-md-7">
+                 <p><strong>{{ photo.title }}</strong></p>
+                 <p>{{ photo.intro }}</p>
+             </td>
+         </tr>
+        {% endfor %}
+     </table>
+        <!--共有 {{ counter.topics}} 篇帖子-->
+    </div>
+    {% else %}
+    <div class="in-center">
+           <p class="center">课程正在完善中，敬请期待。</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    $('a.bwGal').zoomimage({
+	border: 20,
+	centered: true,
+	hideSource: true,
+	controls:true,
+    });
+</script>
+{% endblock %}
+
